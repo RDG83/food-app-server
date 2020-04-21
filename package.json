@@ -1,7 +1,6 @@
 {
   "name": "api-food-app",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "nodemon server.js"
@@ -11,5 +10,15 @@
   "dependencies": {
     "express": "^4.17.1",
     "nodemon": "^2.0.3"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RDG83/food-app-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/RDG83/food-app-server/issues"
+  },
+  "homepage": "https://github.com/RDG83/food-app-server#readme",
+  "description": ""
 }
