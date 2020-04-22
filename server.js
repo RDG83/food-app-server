@@ -1,10 +1,12 @@
 const express = require("express");
+var cors = require("cors");
 const app = express();
 const port = 4000;
-const bcrypt = require('bcrypt-nodejs')
+const bcrypt = require("bcrypt-nodejs");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 const database = {
     users: [
@@ -14,6 +16,7 @@ const database = {
             email: "john@gmail.com",
             password: "apple",
             entries: 0,
+            joined: new Date(),
         },
         {
             id: "234",
@@ -21,6 +24,7 @@ const database = {
             email: "sara@gmail.com",
             password: "pear",
             entries: 0,
+            joined: new Date(),
         },
     ],
     login: [
@@ -59,10 +63,10 @@ app.post("/register", (req, res) => {
         id: "567",
         name: name,
         email: email,
-        password: password,
+        entries: 0,
         joined: new Date(),
     });
-    res.send("added new user");
+    res.json(database.users[database.users.length - 1]);
 });
 
 // PROFILE ROUTE
