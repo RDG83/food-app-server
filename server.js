@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const port = 4000;
+const bcrypt = require('bcrypt-nodejs')
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -21,19 +22,12 @@ const database = {
             password: "pear",
             entries: 0,
         },
+    ],
+    login: [
         {
-            id: "345",
-            name: "Todd",
-            email: "todd@gmail.com",
-            password: "banana",
-            entries: 0,
-        },
-        {
-            id: "456",
-            name: "Linda",
-            email: "linda@gmail.com",
-            password: "melon",
-            entries: 0,
+            id: "321",
+            hash: "",
+            email: "john@gmail.com",
         },
     ],
 };
@@ -58,6 +52,9 @@ app.post("/signin", (req, res) => {
 // REGISTER ROUTE
 app.post("/register", (req, res) => {
     const { email, name, password } = req.body;
+    bcrypt.hash(password, null, null, function (err, hash) {
+        console.log(hash);
+    });
     database.users.push({
         id: "567",
         name: name,
@@ -66,7 +63,6 @@ app.post("/register", (req, res) => {
         joined: new Date(),
     });
     res.send("added new user");
-    console.log(database.users);
 });
 
 // PROFILE ROUTE
@@ -99,6 +95,14 @@ app.post("/image", (req, res) => {
         res.json("failed to find user");
     }
 });
+
+//   // Load hash from your password DB.
+//   bcrypt.compare("bacon", hash, function(err, res) {
+//       // res == true
+//   });
+//   bcrypt.compare("veggies", hash, function(err, res) {
+//       // res = false
+//   });
 
 // START THE SERVER
 app.listen(port, () => {
