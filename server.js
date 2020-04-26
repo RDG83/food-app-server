@@ -12,9 +12,9 @@ const database = {
     users: [
         {
             id: "123",
-            name: "John",
-            email: "john@gmail.com",
-            password: "apple",
+            name: "Test",
+            email: "test@gmail.com",
+            password: "test",
             entries: 0,
             joined: new Date(),
         },
@@ -47,7 +47,7 @@ app.post("/signin", (req, res) => {
         req.body.email === database.users[0].email &&
         req.body.password === database.users[0].password
     ) {
-        res.json("succes");
+        res.json(database.users[0]);
     } else {
         res.send("incorrect login please try again");
     }
@@ -85,7 +85,7 @@ app.get("/profile/:id", (req, res) => {
 });
 
 // IMAGE ROUTE
-app.post("/image", (req, res) => {
+app.put("/image", (req, res) => {
     const { id } = req.body;
     let found = false;
     database.users.forEach((user) => {
