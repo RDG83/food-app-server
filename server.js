@@ -1,8 +1,20 @@
+require('dotenv').config()
 const express = require("express");
 var cors = require("cors");
 const app = express();
 const port = 4000;
 const bcrypt = require("bcrypt-nodejs");
+const knex = require('knex')
+
+const db = knex({
+    client: 'pg',
+    connection: {
+        host: '127.0.0.1',
+        user: process.env.DB_USER,
+        password: process.env.DB_PW,
+        database: 'food_app'
+    }
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -43,10 +55,7 @@ app.get("/", (req, res) => {
 
 // SIGNING ROUTE
 app.post("/signin", (req, res) => {
-    if (
-        req.body.email === database.users[0].email &&
-        req.body.password === database.users[0].password
-    ) {
+    if (req.body.email === database.users[0].email && req.body.password === database.users[0].password) {
         res.json(database.users[0]);
     } else {
         res.send("incorrect login please try again");
