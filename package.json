@@ -16,7 +16,6 @@
     "nodemon": "^2.0.3",
     "pg": "^8.0.3"
   },
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/RDG83/food-app-server.git"
