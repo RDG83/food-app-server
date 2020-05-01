@@ -65,32 +65,35 @@ app.post("/signin", (req, res) => {
 // REGISTER ROUTE
 app.post("/register", (req, res) => {
     const { email, name, password } = req.body;
-    bcrypt.hash(password, null, null, function (err, hash) {
-        console.log(hash);
-    });
-    database.users.push({
-        id: "567",
+    db('users').returning('*').insert({
         name: name,
         email: email,
-        entries: 0,
         joined: new Date(),
-    });
-    res.json(database.users[database.users.length - 1]);
+    }).then(user => {
+        res.json(user[0])
+    }).catch(err => {
+        if (err.detail === "Key (email)=(april@gmail.com) already exists.") {
+            res.status(400).json('Unable to register, email already in use');
+        } else {
+            res.status(400).json(err.details);
+
+        }
+    })
 });
 
 // PROFILE ROUTE
 app.get("/profile/:id", (req, res) => {
     const { id } = req.params;
-    let found = false;
-    database.users.forEach((user) => {
-        if (user.id == id) {
-            found = true;
-            return res.json(user);
+    db.select('*').from('users').where({
+        id: id
+    }).then(user => {
+        if (user.length) {
+            res.json(user[0]);
+        } else {
+            res.status(400).json('Not found')
         }
-    });
-    if (!found) {
-        res.json("failed to find user");
-    }
+    })
+        .catch(err => res.status(400).json('error getting user'))
 });
 
 // IMAGE ROUTE
