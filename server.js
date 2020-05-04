@@ -14,7 +14,7 @@ const image = require("./controllers/image");
 const db = knex({
     client: "pg",
     connection: {
-        host: "127.0.0.1",
+        host: "postgresql-encircled-62559",
         user: process.env.DB_USER,
         password: process.env.DB_PW,
         database: "food_app",
